@@ -23,10 +23,5 @@ var COMMENTS = [
     "avatar": "http://s1.dmcdn.net/BYZEy/118x118-R_l.jpg",
     "message": "It's friday and there's like 10 people in the office what am I doing here",
     "date": new Date('2014-05-25 05:34:00')
-  },
-  {
-    "avatar": "http://s2.dmcdn.net/AVN/80x80-bQG.png",
-    "message": "Okay back to react. I should have just lorem ipsum a few comments instead of writing dumb things. Pineapple.",
-    "date": new Date('2014-05-14 17:00:00')
   }
 ]

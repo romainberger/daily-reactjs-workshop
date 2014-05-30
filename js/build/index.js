@@ -4,15 +4,28 @@
 
 App.videoId = 'x1xlz9m'
 
+var start
+  , end
+
 var CommentBox = React.createClass({displayName: 'CommentBox',
   getInitialState: function() {
-    return {data: []}
+    var comments = []
+    for (var i = 0; i < 200; i++) {
+      comments = comments.concat(COMMENTS)
+    }
+    return {data: comments}
   },
   componentWillMount: function() {
-    var self = this
-    self.getCommentsFromAPI(function(data) {
-      self.setState({data: data.list})
-    })
+    start = performance.now()
+    // var self = this
+    // self.getCommentsFromAPI(function(data) {
+    //   self.setState({data: data.list})
+    // })
+  },
+  componentDidMount: function() {
+    end = performance.now()
+    var time = end - start
+    this.setState({renderingTime: time})
   },
   getCommentsFromAPI: function(cb) {
     $.get('https://api.dailymotion.com/video/' + App.videoId + '/comments?fields=message,created_time,owner.avatar_120_url%2Cowner.screenname&page=1&limit=100', function(data) {
@@ -45,7 +58,7 @@ var CommentBox = React.createClass({displayName: 'CommentBox',
     return (
       React.DOM.div(null, 
         this.state.postError ? CommentError(null ) : '',
-        CommentCount( {data:this.state.data} ),
+        CommentCount( {data:this.state.data, time:this.state.renderingTime} ),
         CommentForm( {onNewComment:this.onNewComment} ),
         CommentList( {data:this.state.data} )
       )
@@ -58,7 +71,8 @@ var CommentCount = React.createClass({displayName: 'CommentCount',
     var nbrComment = this.props.data.length
     return (
       React.DOM.div(null, 
-        React.DOM.h2(null, nbrComment, " ", nbrComment === 1 ? 'Comment' : 'Comments')
+        React.DOM.h2(null, nbrComment, " ", nbrComment === 1 ? 'Comment' : 'Comments'),
+        React.DOM.h5(null, this.props.time,"mms")
       )
     )
   }
