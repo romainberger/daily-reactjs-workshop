@@ -1,0 +1,13 @@
+{
+  "name": "dailymotion-react-workshop",
+  "version": "0.0.1",
+  "description": "Dailymotion React Workshop",
+  "scripts": {
+    "start": "make -j"
+  },
+  "author": "Romain Berger <romain.berger@dailymotion.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "react-tools": "^0.10.0"
+  }
+}
