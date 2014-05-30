@@ -72,7 +72,8 @@ var CommentForm = React.createClass({
     this.props.onNewComment({
       message: message,
       date: +new Date,
-      'owner.avatar_120_url': App.user.avatar_120_url
+      'owner.avatar_120_url': App.user.avatar_120_url,
+      'owner.screenname': App.user.screenname
     })
     this.refs.message.getDOMNode().value = ''
   },
@@ -102,8 +103,9 @@ var CommentError = React.createClass({
 
 var CommentList = React.createClass({
   render: function() {
-    var comments = this.props.data.map(function(comment) {
-      return <Comment message={comment.message} avatar={comment['owner.avatar_120_url']} date={comment.created_time} />
+    var comments = _.sortBy(this.props.data, 'created_time').reverse()
+    comments = comments.map(function(comment) {
+      return <Comment message={comment.message} avatar={comment['owner.avatar_120_url']} date={comment.created_time} screenname={comment['owner.screenname']} />
     })
     return (
       <div>
@@ -120,7 +122,8 @@ var Comment = React.createClass({
         <div className="col-md-1">
           <img className="media-object" src={this.props.avatar} />
         </div>
-        <div className="col-md-11">
+        <div className="col-md-11 media-body">
+          <h5 className="media-heading">{this.props.screenname}</h5>
           <div>{this.props.message}</div>
           <p className="text-muted">{moment(this.props.date * 1000).fromNow()}</p>
         </div>

@@ -34,9 +34,6 @@ var LoginBox = React.createClass({
           App.session = res.session
           self.getUser()
         }
-        else {
-          alert('Fo real dude?')
-        }
       }
     }, {scope: 'manage_comments'})
   },
