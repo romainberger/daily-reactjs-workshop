@@ -1,36 +1,120 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>Dailymotion React Workshop</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
-</head>
-<body>
-    <div class="container">
-        <div class="page-header">
-            <div class="row">
-                <div class="col-md-9">
-                    <h1>Dailymotion</h1>
-                </div>
-                <div id="login-button"></div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="comments" id="comments"></div>
-            </div>
-        </div>
-    </div>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-    <script src="//api.dmcdn.net/all.js"></script>
-    <script src="//fb.me/react-0.10.0.js"></script>
-    <script src="/node_modules/moment/moment.js"></script>
-    <script src="/node_modules/lodash/lodash.js"></script>
-    <script src="/js/build/fixtures.js"></script>
-    <script src="/js/build/login.js"></script>
-    <script src="/js/build/index.js"></script>
-</body>
+	<head>
+		<meta charset="utf-8">
+		<title>Dailymotion Reactjs Workshop</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>React</h1>
+					<p>
+						<small>by <a href="http://hakim.se">Romain Berger</a></small>
+					</p>
+					<p>
+						<small><a href="https://romainberger.github.io/daily-reactjs-workshop">https://romainberger.github.io/daily-reactjs-workshop</a></small>
+					</p>
+				</section>
+
+				<section>
+					<section>
+						<h2>What is React</h2>
+						<p>Front end framework created by Facebook</p>
+						<p>Currently used in production (Instagram webapp, Facebook chat)</p>
+					</section>
+					<section>
+						<blockquote class="twitter-tweet" lang="en" align="center"><p>I don&#39;t mean this in a bad way, but do we really need another Javascript framework?</p>&mdash; Horse JS (@horse_js) <a href="https://twitter.com/horse_js/statuses/445941133588189185">March 18, 2014</a></blockquote>
+						<script async src="http://platform.twitter.com/widgets.js" charset="utf-8"></script>
+					</section>
+					<section>
+						<blockquote>"Lots of people use React as the V in MVC"</blockquote>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Virtual DOM: JSX</h2>
+					</section>
+					<section>
+						<pre><code data-trim contenteditable>
+/** @jsx React.DOM */
+
+var Hello = React.createClass({
+  render: function() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;
+  }
+})
+
+React.renderComponent(
+  &lt;Hello name="Romain" /&gt;,
+  document.querySelector('#container')
+)
+					</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<h2>Why we should use it</h2>
+					<ul>
+						<li class="fragment">Not a complete MVC framework</li> <!-- easily embeddable in existing apps without constraints -->
+						<li class="fragment">Reusable components</li>
+						<li class="fragment">Fast and easy</li>
+						<li class="fragment">Used in production apps</li> <!-- used by facebook and instagram so we can be confident -->
+						<li class="fragment">Well documented</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Code</h2>
+					<p><a href="http://bit.ly/daily-react">http://bit.ly/daily-react</a></p>
+					<pre><code data-trim contenteditable>
+git clone git@github.com:romainberger/daily-reactjs-workshop.git
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Links</h2>
+					<ul>
+						<li><a href="http://facebook.github.io/react/">http://facebook.github.io/react/</a></li>
+						<li><a href="https://www.youtube.com/watch?v=nYkdrAPrdcw">https://www.youtube.com/watch?v=nYkdrAPrdcw</a></li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>FIN</h1>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+		<script>
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: false,
+				progress: false,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
 </html>
