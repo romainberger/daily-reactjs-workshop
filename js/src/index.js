@@ -33,7 +33,7 @@ var CommentList = React.createClass({
   },
   render: function() {
     var comments = this.state.data.map(function(comment) {
-      return <Comment message={comment.message} avatar={comment.avatar} />
+      return <Comment message={comment.message} avatar={comment.avatar} date={comment.date} />
     })
     return (
       <div>
@@ -51,7 +51,8 @@ var Comment = React.createClass({
           <img className="media-object" src={this.props.avatar} />
         </div>
         <div className="col-md-11">
-          {this.props.message}
+          <div>{this.props.message}</div>
+          <p className="text-muted">{moment(this.props.date).fromNow()}</p>
         </div>
       </div>
     )
