@@ -16,6 +16,7 @@ Every steps are accessible with the tags:
 * comment-list: Display a simple list of comment with React
 * comment-date: Integration of a third party library into React
 * comment-form: Basic form to post comments
+* api: Fetch and post comments with the API
 
 ## Login
 
