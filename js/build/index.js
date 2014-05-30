@@ -3,11 +3,22 @@
 'use strict';
 
 var CommentBox = React.createClass({displayName: 'CommentBox',
+  getInitialState: function() {
+    return {data: COMMENTS}
+  },
+  onNewComment: function(comment) {
+    comment.avatar = 'http://s2.dmcdn.net/AVN/80x80-bQG.png'
+    var comments = this.state.data
+      , newComments = comments.concat([comment])
+
+    this.setState({data: newComments})
+  },
   render: function() {
     return (
       React.DOM.div(null, 
         CommentCount(null ),
-        CommentList(null )
+        CommentForm( {onNewComment:this.onNewComment} ),
+        CommentList( {data:this.state.data} )
       )
     )
   }
@@ -27,12 +38,31 @@ var CommentCount = React.createClass({displayName: 'CommentCount',
   }
 })
 
-var CommentList = React.createClass({displayName: 'CommentList',
-  getInitialState: function() {
-    return {data: COMMENTS}
+var CommentForm = React.createClass({displayName: 'CommentForm',
+  handleSubmit: function(e) {
+    e.preventDefault()
+
+    var message = this.refs.message.getDOMNode().value
+    this.props.onNewComment({message: message, date: new Date})
+    this.refs.message.getDOMNode().value = ''
   },
   render: function() {
-    var comments = this.state.data.map(function(comment) {
+    return (
+      React.DOM.form( {onSubmit:this.handleSubmit}, 
+        React.DOM.div( {className:"form-group"}, 
+          React.DOM.textarea( {className:"form-control", ref:"message", placeholder:"Leave a comment!"})
+        ),
+        React.DOM.div( {className:"form-group"}, 
+          React.DOM.button( {className:"btn btn-primary"}, "Post comment")
+        )
+      )
+    )
+  }
+})
+
+var CommentList = React.createClass({displayName: 'CommentList',
+  render: function() {
+    var comments = this.props.data.map(function(comment) {
       return Comment( {message:comment.message, avatar:comment.avatar, date:comment.date} )
     })
     return (
