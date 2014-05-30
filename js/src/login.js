@@ -38,7 +38,7 @@ var LoginBox = React.createClass({
           alert('Fo real dude?')
         }
       }
-    })
+    }, {scope: 'manage_comments'})
   },
   getUser: function(cb) {
     var self = this

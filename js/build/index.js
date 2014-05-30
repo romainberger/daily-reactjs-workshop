@@ -10,8 +10,13 @@ var CommentBox = React.createClass({displayName: 'CommentBox',
   },
   componentWillMount: function() {
     var self = this
-    $.get('https://api.dailymotion.com/video/' + App.videoId + '/comments?fields=message,created_time,owner.avatar_120_url%2Cowner.screenname&page=1&limit=100', function(data) {
+    self.getCommentsFromAPI(function(data) {
       self.setState({data: data.list})
+    })
+  },
+  getCommentsFromAPI: function(cb) {
+    $.get('https://api.dailymotion.com/video/' + App.videoId + '/comments?fields=message,created_time,owner.avatar_120_url%2Cowner.screenname&page=1&limit=100', function(data) {
+      cb(data)
     })
   },
   onNewComment: function(comment) {
@@ -19,10 +24,27 @@ var CommentBox = React.createClass({displayName: 'CommentBox',
       , newComments = comments.concat([comment])
 
     this.setState({data: newComments})
+
+    var self = this
+
+    DM.api('/video/' + App.videoId + '/comments', 'post', {message: comment.message}, function(res) {
+      // remove comment if there was an error
+      // and display an error
+      if (typeof res.error !== 'undefined') {
+        self.setState({postError: true})
+        setTimeout(function() {
+          self.setState({postError: false})
+        }, 3000)
+        self.getCommentsFromAPI(function(data) {
+          self.setState({data: data.list})
+        })
+      }
+    })
   },
   render: function() {
     return (
       React.DOM.div(null, 
+        this.state.postError ? CommentError(null ) : '',
         CommentCount( {data:this.state.data} ),
         CommentForm( {onNewComment:this.onNewComment} ),
         CommentList( {data:this.state.data} )
@@ -49,7 +71,7 @@ var CommentForm = React.createClass({displayName: 'CommentForm',
     var message = this.refs.message.getDOMNode().value
     this.props.onNewComment({
       message: message,
-      date: new Date,
+      date: +new Date,
       'owner.avatar_120_url': App.user.avatar_120_url
     })
     this.refs.message.getDOMNode().value = ''
@@ -63,6 +85,16 @@ var CommentForm = React.createClass({displayName: 'CommentForm',
         React.DOM.div( {className:"form-group"}, 
           React.DOM.button( {className:"btn btn-primary"}, "Post comment")
         )
+      )
+    )
+  }
+})
+
+var CommentError = React.createClass({displayName: 'CommentError',
+  render: function() {
+    return (
+      React.DOM.div( {className:"alert alert-danger"}, 
+        "An error occured"
       )
     )
   }
@@ -90,7 +122,7 @@ var Comment = React.createClass({displayName: 'Comment',
         ),
         React.DOM.div( {className:"col-md-11"}, 
           React.DOM.div(null, this.props.message),
-          React.DOM.p( {className:"text-muted"}, moment(this.props.date).fromNow())
+          React.DOM.p( {className:"text-muted"}, moment(this.props.date * 1000).fromNow())
         )
       )
     )
