@@ -16,7 +16,7 @@ var CommentBox = React.createClass({
   render: function() {
     return (
       <div>
-        <CommentCount />
+        <CommentCount data={this.state.data} />
         <CommentForm onNewComment={this.onNewComment} />
         <CommentList data={this.state.data} />
       </div>
@@ -25,11 +25,8 @@ var CommentBox = React.createClass({
 })
 
 var CommentCount = React.createClass({
-  getInitialState: function() {
-    return {data: COMMENTS}
-  },
   render: function() {
-    var nbrComment = this.state.data.length
+    var nbrComment = this.props.data.length
     return (
       <div>
         <h2>{nbrComment} {nbrComment === 1 ? 'Comment' : 'Comments'}</h2>
