@@ -8,7 +8,7 @@ var App = {
 }
 
 DM.init({
-    apiKey: 'API Key'
+    apiKey: '4157b6a4c5f51a34580d'
   , status: true
   , cookie: true
 })
