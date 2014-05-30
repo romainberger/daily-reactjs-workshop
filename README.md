@@ -15,3 +15,8 @@ Every steps are accessible with the tags:
 * start: Basic HTML with dependencies
 * comment-list: Display a simple list of comment with React
 * comment-date: Integration of a third party library into React
+* comment-form: Basic form to post comments
+
+## Login
+
+To post comments using the API you will need to [register an app](http://www.dailymotion.com/profile/developer/new), then add your API key.
