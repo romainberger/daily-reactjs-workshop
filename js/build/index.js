@@ -2,12 +2,19 @@
 
 'use strict';
 
+App.videoId = 'x1xlz9m'
+
 var CommentBox = React.createClass({displayName: 'CommentBox',
   getInitialState: function() {
-    return {data: COMMENTS}
+    return {data: []}
+  },
+  componentWillMount: function() {
+    var self = this
+    $.get('https://api.dailymotion.com/video/' + App.videoId + '/comments?fields=message,created_time,owner.avatar_120_url%2Cowner.screenname&page=1&limit=100', function(data) {
+      self.setState({data: data.list})
+    })
   },
   onNewComment: function(comment) {
-    comment.avatar = 'http://s2.dmcdn.net/AVN/80x80-bQG.png'
     var comments = this.state.data
       , newComments = comments.concat([comment])
 
@@ -40,7 +47,11 @@ var CommentForm = React.createClass({displayName: 'CommentForm',
     e.preventDefault()
 
     var message = this.refs.message.getDOMNode().value
-    this.props.onNewComment({message: message, date: new Date})
+    this.props.onNewComment({
+      message: message,
+      date: new Date,
+      'owner.avatar_120_url': App.user.avatar_120_url
+    })
     this.refs.message.getDOMNode().value = ''
   },
   render: function() {
@@ -60,7 +71,7 @@ var CommentForm = React.createClass({displayName: 'CommentForm',
 var CommentList = React.createClass({displayName: 'CommentList',
   render: function() {
     var comments = this.props.data.map(function(comment) {
-      return Comment( {message:comment.message, avatar:comment.avatar, date:comment.date} )
+      return Comment( {message:comment.message, avatar:comment['owner.avatar_120_url'], date:comment.created_time} )
     })
     return (
       React.DOM.div(null, 
