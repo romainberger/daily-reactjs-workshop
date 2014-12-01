@@ -23,3 +23,7 @@ Every steps are accessible with the tags:
 ## Login
 
 To post comments using the API you will need to [register an app](http://www.dailymotion.com/profile/developer/new), then add your API key.
+
+## Tests
+
+    $ npm test

@@ -2,6 +2,13 @@
 
 'use strict';
 
+if (typeof module !== 'undefined') {
+  var React  = require('react/addons')
+    , moment = require('moment')
+}
+
+var App = typeof App !== 'undefined' ? App : {}
+
 App.videoId = 'x1xlz9m'
 
 var CommentBox = React.createClass({displayName: 'CommentBox',
@@ -97,7 +104,7 @@ var CommentError = React.createClass({displayName: 'CommentError',
       React.DOM.div( {className:"alert alert-danger"}, 
         React.DOM.p(null, "An error occured"),
         this.props.message ?
-          React.DOM.p(null, this.props.message) : ''
+          React.DOM.p( {className:"error-message"}, this.props.message) : ''
         
       )
     )
@@ -127,7 +134,7 @@ var Comment = React.createClass({displayName: 'Comment',
         ),
         React.DOM.div( {className:"col-md-11 media-body"}, 
           React.DOM.h5( {className:"media-heading"}, this.props.screenname),
-          React.DOM.div(null, this.props.message),
+          React.DOM.div( {className:"comment-message"}, this.props.message),
           React.DOM.p( {className:"text-muted"}, moment(this.props.date * 1000).fromNow())
         )
       )
@@ -135,7 +142,15 @@ var Comment = React.createClass({displayName: 'Comment',
   }
 })
 
-React.renderComponent(
-  CommentBox(null ),
-  document.querySelector('#comments')
-)
+if (typeof module !== 'undefined') {
+  module.exports = {
+      CommentError: CommentError
+    , Comment:      Comment
+  }
+}
+else {
+  React.renderComponent(
+    CommentBox(null ),
+    document.querySelector('#comments')
+  )
+}
