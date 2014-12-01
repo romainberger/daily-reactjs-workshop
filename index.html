@@ -74,7 +74,7 @@ var Hello = React.createClass({
   }
 })
 
-React.renderComponent(
+React.render(
   &lt;Hello name="Romain" /&gt;,
   document.querySelector('#container')
 )
@@ -91,6 +91,7 @@ React.renderComponent(
 							<li class="fragment">Fast and easy</li>
 							<li class="fragment">Used in production apps</li> <!-- used by facebook and instagram so we can be confident -->
 							<li class="fragment">Well documented</li>
+							<li class="fragment">Easily testable</li>
 						</ul>
 					</section>
 					<section>
@@ -102,6 +103,29 @@ React.renderComponent(
 							<li>Test utilities available</li>
 							<li>Jest</li>
 						</ul>
+					</section>
+					<section>
+						<pre><code data-trim contenteditable>
+/** @jsx React.DOM */
+
+jest.dontMock('hello')
+
+var React = require('react/addons'),
+  TestUtils = React.addons.TestUtils,
+  Hello = require('hello')
+
+describe('Hello', function() {
+  it('Should return a hello', function() {
+    var component = TestUtils.renderIntoDocument(
+      &lt;Hello name="Romain" /&gt;
+    )
+
+    var text = TestUtils.findRenderedDOMComponentWithTag(component, 'div')
+
+    expect(text.getDOMNode().textContent()).toEqual('Hello Romain')
+  })
+})
+						</code></pre>
 					</section>
 				</section>
 
