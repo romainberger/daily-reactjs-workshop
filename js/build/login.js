@@ -37,6 +37,14 @@ var LoginBox = React.createClass({displayName: 'LoginBox',
       }
     }, {scope: 'manage_comments'})
   },
+  logout: function() {
+    var self = this
+    DM.logout(function() {
+      App.session = false
+      App.user    = false
+      self.setState({logged: false})
+    })
+  },
   getUser: function(cb) {
     var self = this
     DM.api('/me', {fields: 'screenname,avatar_120_url'}, function(data) {
@@ -48,7 +56,8 @@ var LoginBox = React.createClass({displayName: 'LoginBox',
     return (
       React.DOM.div(null, 
         this.state.logged ?
-          React.DOM.h4(null, "Hello ", this.state.username) :
+          React.DOM.div(null, React.DOM.h4( {className:"pull-left"}, "Hello ", this.state.username),
+          LogoutButton( {onLogout:this.logout} )) :
           LoginButton( {onLogin:this.login} )
         
       )
@@ -60,6 +69,14 @@ var LoginButton = React.createClass({displayName: 'LoginButton',
   render: function() {
     return (
       React.DOM.button( {className:"pull-right btn btn-default", onClick:this.props.onLogin}, "Login")
+    )
+  }
+})
+
+var LogoutButton = React.createClass({displayName: 'LogoutButton',
+  render: function() {
+    return (
+      React.DOM.button( {className:"pull-right btn btn-default", onClick:this.props.onLogout}, "Log out")
     )
   }
 })

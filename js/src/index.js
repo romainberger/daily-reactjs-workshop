@@ -31,7 +31,7 @@ var CommentBox = React.createClass({
       // remove comment if there was an error
       // and display an error
       if (typeof res.error !== 'undefined') {
-        self.setState({postError: true})
+        self.setState({postError: true, error: res.error.message})
         setTimeout(function() {
           self.setState({postError: false})
         }, 3000)
@@ -44,7 +44,7 @@ var CommentBox = React.createClass({
   render: function() {
     return (
       <div>
-        {this.state.postError ? <CommentError /> : ''}
+        {this.state.postError ? <CommentError message={this.state.error} /> : ''}
         <CommentCount data={this.state.data} />
         <CommentForm onNewComment={this.onNewComment} />
         <CommentList data={this.state.data} />
@@ -95,7 +95,10 @@ var CommentError = React.createClass({
   render: function() {
     return (
       <div className="alert alert-danger">
-        An error occured
+        <p>An error occured</p>
+        {this.props.message ?
+          <p>{this.props.message}</p> : ''
+        }
       </div>
     )
   }
